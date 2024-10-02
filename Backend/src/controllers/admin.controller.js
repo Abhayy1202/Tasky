@@ -1,4 +1,5 @@
-import Admin from "../models/admin.model.js";
+import {Admin} from "../models/admin.model.js";
+import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -13,6 +14,15 @@ const registerAdmin = asyncHandler(async (req, res) => {
   }
 
   const admin = await Admin.create({ email, password });
+    
+  const user = await User.create({
+      username,
+      Email: email,
+      fullName,
+      password,
+      phone_number,
+      role: "Admin",
+    });
 
   res.status(201).json(new ApiResponse("Admin registered successfully", admin));
 });
